@@ -1,0 +1,79 @@
+#include <iostream>
+using namespace std;
+
+class CircularBuffer {
+    int *arr, size, front, rear, count;
+
+public:
+    CircularBuffer(int s) {
+        size = s;
+        arr = new int[size];   // Dynamic allocation
+        front = 0;
+        rear = -1;
+        count = 0;
+    }
+
+    void insert(int x) {
+        if (count == size) {
+            cout << "Buffer Overflow\n";
+            return;
+        }
+        rear = (rear + 1) % size;
+        arr[rear] = x;
+        count++;
+    }
+
+    void remove() {
+        if (count == 0) {
+            cout << "Buffer Underflow\n";
+            return;
+        }
+        cout << "Removed: " << arr[front] << endl;
+        front = (front + 1) % size;
+        count--;
+    }
+
+    void display() {
+        if (count == 0) {
+            cout << "Buffer Empty\n";
+            return;
+        }
+        cout << "Buffer: ";
+        for (int i = 0; i < count; i++)
+            cout << arr[(front + i) % size] << " ";
+        cout << endl;
+    }
+
+    ~CircularBuffer() {
+        delete[] arr;   // Proper deallocation
+    }
+};
+
+int main() {
+    int n, choice, val;
+    cout << "Enter buffer size: ";
+    cin >> n;
+
+    CircularBuffer cb(n);
+
+    do {
+        cout << "\n1.Insert  2.Remove  3.Display  4.Exit\n";
+        cin >> choice;
+
+        switch(choice) {
+            case 1: 
+                cout << "Enter value: ";
+                cin >> val;
+                cb.insert(val);
+                break;
+            case 2: 
+                cb.remove();
+                break;
+            case 3: 
+                cb.display();
+                break;
+        }
+    } while(choice != 4);
+
+    return 0;
+}
