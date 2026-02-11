@@ -1,0 +1,13 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    const int x = 10;      // constant variable
+    const int* ptr = &x;   // pointer to constant
+
+    cout << "Value of x: " << *ptr << endl;
+
+    // *ptr = 20;  // ❌ Error: cannot modify through pointer
+
+    return 0;
+}
