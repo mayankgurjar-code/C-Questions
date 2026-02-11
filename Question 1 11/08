@@ -1,0 +1,54 @@
+// Returning Reference to a Local Variable Problem Occurs
+
+#include <iostream>
+using namespace std;
+
+int& wrong() {
+    int x = 10;   // local variable
+    return x;     // returning reference to local variable
+}
+
+int main() {
+    int &ref = wrong();
+    cout << ref << endl;   // Undefined behavior
+}
+
+// Problems : Returning reference to local variable causes dangling reference and undefined behavior because the variable is destroyed after function execution.
+How we can avoid this:Never return reference to local variable, Use static variable
+, Use global variable
+, Or return value (not reference) //
+
+// By Static Variable
+
+#include <iostream>
+using namespace std;
+
+int& correct() {
+    static int x = 10;  // static variable
+    return x;
+}
+
+int main() {
+    int &ref = correct();
+    cout << ref << endl;
+
+    ref = 50;
+    cout << correct() << endl;
+}
+
+// By Global Variable
+
+#include <iostream>
+using namespace std;
+
+int x = 20;   // global variable
+
+int& getValue() {
+    return x;
+}
+
+int main() {
+    cout << getValue() << endl;
+    getValue() = 100;
+    cout << x << endl;
+}
